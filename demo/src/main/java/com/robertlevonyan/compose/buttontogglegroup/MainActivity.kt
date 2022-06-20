@@ -45,7 +45,8 @@ fun BtgTest() {
     ColumnToggleButtonGroup(
       modifier = Modifier
         .padding(16.dp)
-        .fillMaxSize(),
+        .fillMaxSize(fraction = 0.5f),
+      primarySelection = 1,
       buttonCount = 3,
       buttonTexts = arrayOf("Btn 1", "Btn 2", "Btn 3"),
     ) { index ->
