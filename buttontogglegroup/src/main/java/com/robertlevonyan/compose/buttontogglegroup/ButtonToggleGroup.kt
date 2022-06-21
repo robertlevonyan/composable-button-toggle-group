@@ -189,14 +189,24 @@ private fun RowScope.ButtonContent(
 ) {
   when {
     buttonTexts.all { it != "" } && buttonIcons.all { it != emptyPainter } -> {
-      Image(
-        modifier = Modifier
-          .align(Alignment.CenterVertically)
-          .size(24.dp),
-        painter = buttonIcons[index],
-        contentDescription = null,
-        colorFilter = ColorFilter.tint(iconTintColor)
-      )
+      if (iconTintColor == Color.Transparent || iconTintColor == Color.Unspecified) {
+        Image(
+          modifier = Modifier
+            .align(Alignment.CenterVertically)
+            .size(24.dp),
+          painter = buttonIcons[index],
+          contentDescription = null,
+        )
+      } else {
+        Image(
+          modifier = Modifier
+            .align(Alignment.CenterVertically)
+            .size(24.dp),
+          painter = buttonIcons[index],
+          contentDescription = null,
+          colorFilter = ColorFilter.tint(iconTintColor)
+        )
+      }
       Text(
         modifier = Modifier
           .padding(start = 8.dp)
@@ -212,14 +222,24 @@ private fun RowScope.ButtonContent(
         color = contentColor
       )
     buttonTexts.all { it == "" } && buttonIcons.all { it != emptyPainter } ->
-      Image(
-        modifier = Modifier
-          .align(Alignment.CenterVertically)
-          .size(24.dp),
-        painter = buttonIcons[index],
-        contentDescription = null,
-        colorFilter = ColorFilter.tint(iconTintColor),
-      )
+      if (iconTintColor == Color.Transparent || iconTintColor == Color.Unspecified) {
+        Image(
+          modifier = Modifier
+            .align(Alignment.CenterVertically)
+            .size(24.dp),
+          painter = buttonIcons[index],
+          contentDescription = null,
+        )
+      } else {
+        Image(
+          modifier = Modifier
+            .align(Alignment.CenterVertically)
+            .size(24.dp),
+          painter = buttonIcons[index],
+          contentDescription = null,
+          colorFilter = ColorFilter.tint(iconTintColor)
+        )
+      }
   }
 }
 
