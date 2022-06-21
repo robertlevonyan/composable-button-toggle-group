@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "ButtonToggleGroup"
+rootProject.name = "button-toggle-group"
 include ':demo'
 include ':buttontogglegroup'

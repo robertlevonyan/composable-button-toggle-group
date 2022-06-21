@@ -29,6 +29,8 @@ fun ColumnToggleButtonGroup(
   unselectedColor: Color = Color.Unspecified,
   selectedContentColor: Color = Color.Black,
   unselectedContentColor: Color = Color.Gray,
+  buttonIconTint: Color = selectedContentColor,
+  unselectedButtonIconTint: Color = unselectedContentColor,
   borderColor: Color = selectedColor,
   buttonTexts: Array<String> = Array(buttonCount) { "" },
   buttonIcons: Array<Painter> = Array(buttonCount) { emptyPainter },
@@ -53,8 +55,8 @@ fun ColumnToggleButtonGroup(
       val isButtonSelected = selectionIndex == index
       val backgroundColor = if (isButtonSelected) selectedColor else unselectedColor
       val contentColor = if (isButtonSelected) selectedContentColor else unselectedContentColor
+      val iconTintColor = if (isButtonSelected) buttonIconTint else unselectedButtonIconTint
       val offset = borderSize * -index
-
 
       ToggleButton(
         modifier = Modifier
@@ -70,6 +72,7 @@ fun ColumnToggleButtonGroup(
         buttonIcons = buttonIcons,
         index = index,
         contentColor = contentColor,
+        iconTintColor = iconTintColor,
         onClick = {
           selectionIndex = index
           onButtonClick.invoke(index)
@@ -88,6 +91,8 @@ fun RowToggleButtonGroup(
   unselectedColor: Color = Color.Unspecified,
   selectedContentColor: Color = Color.Black,
   unselectedContentColor: Color = Color.Gray,
+  buttonIconTint: Color = selectedContentColor,
+  unselectedButtonIconTint: Color = unselectedContentColor,
   borderColor: Color = selectedColor,
   buttonTexts: Array<String> = Array(buttonCount) { "" },
   buttonIcons: Array<Painter> = Array(buttonCount) { ColorPainter(Color.Transparent) },
@@ -112,6 +117,7 @@ fun RowToggleButtonGroup(
       val isButtonSelected = selectionIndex == index
       val backgroundColor = if (isButtonSelected) selectedColor else unselectedColor
       val contentColor = if (isButtonSelected) selectedContentColor else unselectedContentColor
+      val iconTintColor = if (isButtonSelected) buttonIconTint else unselectedButtonIconTint
       val offset = borderSize * -index
 
       ToggleButton(
@@ -128,6 +134,7 @@ fun RowToggleButtonGroup(
         buttonIcons = buttonIcons,
         index = index,
         contentColor = contentColor,
+        iconTintColor = iconTintColor,
         onClick = {
           selectionIndex = index
           onButtonClick.invoke(index)
@@ -149,6 +156,7 @@ private fun ToggleButton(
   buttonIcons: Array<Painter>,
   index: Int,
   contentColor: Color,
+  iconTintColor: Color,
   onClick: () -> Unit,
 ) {
   OutlinedButton(
@@ -166,6 +174,7 @@ private fun ToggleButton(
       buttonIcons = buttonIcons,
       index = index,
       contentColor = contentColor,
+      iconTintColor = iconTintColor,
     )
   }
 }
@@ -176,6 +185,7 @@ private fun RowScope.ButtonContent(
   buttonIcons: Array<Painter>,
   index: Int,
   contentColor: Color,
+  iconTintColor: Color,
 ) {
   when {
     buttonTexts.all { it != "" } && buttonIcons.all { it != emptyPainter } -> {
@@ -185,7 +195,7 @@ private fun RowScope.ButtonContent(
           .size(24.dp),
         painter = buttonIcons[index],
         contentDescription = null,
-        colorFilter = ColorFilter.tint(contentColor)
+        colorFilter = ColorFilter.tint(iconTintColor)
       )
       Text(
         modifier = Modifier
@@ -208,7 +218,7 @@ private fun RowScope.ButtonContent(
           .size(24.dp),
         painter = buttonIcons[index],
         contentDescription = null,
-        colorFilter = ColorFilter.tint(contentColor),
+        colorFilter = ColorFilter.tint(iconTintColor),
       )
   }
 }
