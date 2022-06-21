@@ -1,6 +1,7 @@
 plugins {
   id("com.android.library")
   kotlin("android")
+  id("com.vanniktech.maven.publish")
 }
 
 val composeVersion = "1.1.1"
@@ -32,6 +33,15 @@ android {
   }
   composeOptions {
     kotlinCompilerExtensionVersion = composeVersion
+  }
+  namespace = "com.robertlevonyan.compose"
+}
+
+allprojects {
+  plugins.withId("com.vanniktech.maven.publish") {
+    mavenPublish {
+      sonatypeHost = com.vanniktech.maven.publish.SonatypeHost.S01
+    }
   }
 }
 

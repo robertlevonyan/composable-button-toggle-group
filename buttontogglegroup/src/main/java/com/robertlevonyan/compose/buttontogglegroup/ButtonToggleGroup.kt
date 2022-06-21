@@ -1,6 +1,7 @@
 package com.robertlevonyan.compose.buttontogglegroup
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
@@ -10,8 +11,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -21,11 +26,12 @@ fun ColumnToggleButtonGroup(
   buttonCount: Int,
   primarySelection: Int = -1,
   selectedColor: Color = Color.White,
-  unselectedColor: Color = Color.Transparent,
-  selectedTextColor: Color = Color.Black,
-  unselectedTextColor: Color = Color.Gray,
+  unselectedColor: Color = Color.Unspecified,
+  selectedContentColor: Color = Color.Black,
+  unselectedContentColor: Color = Color.Gray,
   borderColor: Color = selectedColor,
   buttonTexts: Array<String> = Array(buttonCount) { "" },
+  buttonIcons: Array<Painter> = Array(buttonCount) { emptyPainter },
   shape: CornerBasedShape = MaterialTheme.shapes.small,
   borderSize: Dp = 1.dp,
   border: BorderStroke = BorderStroke(borderSize, borderColor),
@@ -46,30 +52,29 @@ fun ColumnToggleButtonGroup(
       }
       val isButtonSelected = selectionIndex == index
       val backgroundColor = if (isButtonSelected) selectedColor else unselectedColor
-      val textColor = if (isButtonSelected) selectedTextColor else unselectedTextColor
+      val contentColor = if (isButtonSelected) selectedContentColor else unselectedContentColor
       val offset = borderSize * -index
 
-      OutlinedButton(
+
+      ToggleButton(
         modifier = Modifier
           .fillMaxWidth()
           .height(buttonHeight)
           .offset(y = offset),
-        contentPadding = PaddingValues(),
-        shape = buttonShape,
+        buttonShape = buttonShape,
         border = border,
+        backgroundColor = backgroundColor,
+        elevation = elevation,
+        enabled = enabled,
+        buttonTexts = buttonTexts,
+        buttonIcons = buttonIcons,
+        index = index,
+        contentColor = contentColor,
         onClick = {
           selectionIndex = index
           onButtonClick.invoke(index)
         },
-        colors = ButtonDefaults.outlinedButtonColors(backgroundColor = backgroundColor),
-        elevation = elevation,
-        enabled = enabled,
-      ) {
-        Text(
-          text = buttonTexts[index],
-          color = textColor
-        )
-      }
+      )
     }
   }
 }
@@ -80,11 +85,12 @@ fun RowToggleButtonGroup(
   buttonCount: Int,
   primarySelection: Int = -1,
   selectedColor: Color = Color.White,
-  unselectedColor: Color = Color.Transparent,
-  selectedTextColor: Color = Color.Black,
-  unselectedTextColor: Color = Color.Gray,
+  unselectedColor: Color = Color.Unspecified,
+  selectedContentColor: Color = Color.Black,
+  unselectedContentColor: Color = Color.Gray,
   borderColor: Color = selectedColor,
   buttonTexts: Array<String> = Array(buttonCount) { "" },
+  buttonIcons: Array<Painter> = Array(buttonCount) { ColorPainter(Color.Transparent) },
   shape: CornerBasedShape = MaterialTheme.shapes.small,
   borderSize: Dp = 1.dp,
   border: BorderStroke = BorderStroke(borderSize, borderColor),
@@ -105,30 +111,106 @@ fun RowToggleButtonGroup(
       }
       val isButtonSelected = selectionIndex == index
       val backgroundColor = if (isButtonSelected) selectedColor else unselectedColor
-      val textColor = if (isButtonSelected) selectedTextColor else unselectedTextColor
+      val contentColor = if (isButtonSelected) selectedContentColor else unselectedContentColor
       val offset = borderSize * -index
 
-      OutlinedButton(
+      ToggleButton(
         modifier = Modifier
           .weight(weight = 1f)
           .height(buttonHeight)
           .offset(x = offset),
-        contentPadding = PaddingValues(),
-        shape = buttonShape,
+        buttonShape = buttonShape,
         border = border,
+        backgroundColor = backgroundColor,
+        elevation = elevation,
+        enabled = enabled,
+        buttonTexts = buttonTexts,
+        buttonIcons = buttonIcons,
+        index = index,
+        contentColor = contentColor,
         onClick = {
           selectionIndex = index
           onButtonClick.invoke(index)
         },
-        colors = ButtonDefaults.outlinedButtonColors(backgroundColor = backgroundColor),
-        elevation = elevation,
-        enabled = enabled,
-      ) {
-        Text(
-          text = buttonTexts[index],
-          color = textColor
-        )
-      }
+      )
     }
   }
 }
+
+@Composable
+private fun ToggleButton(
+  modifier: Modifier,
+  buttonShape: CornerBasedShape,
+  border: BorderStroke,
+  backgroundColor: Color,
+  elevation: ButtonElevation,
+  enabled: Boolean,
+  buttonTexts: Array<String>,
+  buttonIcons: Array<Painter>,
+  index: Int,
+  contentColor: Color,
+  onClick: () -> Unit,
+) {
+  OutlinedButton(
+    modifier = modifier,
+    contentPadding = PaddingValues(),
+    shape = buttonShape,
+    border = border,
+    onClick = onClick,
+    colors = ButtonDefaults.outlinedButtonColors(backgroundColor = backgroundColor),
+    elevation = elevation,
+    enabled = enabled,
+  ) {
+    ButtonContent(
+      buttonTexts = buttonTexts,
+      buttonIcons = buttonIcons,
+      index = index,
+      contentColor = contentColor,
+    )
+  }
+}
+
+@Composable
+private fun RowScope.ButtonContent(
+  buttonTexts: Array<String>,
+  buttonIcons: Array<Painter>,
+  index: Int,
+  contentColor: Color,
+) {
+  when {
+    buttonTexts.all { it != "" } && buttonIcons.all { it != emptyPainter } -> {
+      Image(
+        modifier = Modifier
+          .align(Alignment.CenterVertically)
+          .size(24.dp),
+        painter = buttonIcons[index],
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(contentColor)
+      )
+      Text(
+        modifier = Modifier
+          .padding(start = 8.dp)
+          .align(Alignment.CenterVertically),
+        text = buttonTexts[index],
+        color = contentColor
+      )
+    }
+    buttonTexts.all { it != "" } && buttonIcons.all { it == emptyPainter } ->
+      Text(
+        modifier = Modifier.align(Alignment.CenterVertically),
+        text = buttonTexts[index],
+        color = contentColor
+      )
+    buttonTexts.all { it == "" } && buttonIcons.all { it != emptyPainter } ->
+      Image(
+        modifier = Modifier
+          .align(Alignment.CenterVertically)
+          .size(24.dp),
+        painter = buttonIcons[index],
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(contentColor),
+      )
+  }
+}
+
+private val emptyPainter = ColorPainter(Color.Transparent)
