@@ -46,7 +46,8 @@ Add following line of code to your module(app) level gradle file
 ## Usage
 
 ### RowToggleButtonGroup
-|```kotlin
+|
+```kotlin
   Column(modifier = Modifier.fillMaxSize()) {
     RowToggleButtonGroup(
       modifier = Modifier,
@@ -66,5 +67,6 @@ Add following line of code to your module(app) level gradle file
       // check index and handle click
     }
   }
-```|![alt text](https://github.com/robertlevonyan/composable-button-toggle-group/blob/main/images/row.png)|
+```
+|![alt text](https://github.com/robertlevonyan/composable-button-toggle-group/blob/main/images/row.png)|
 |--|--|
