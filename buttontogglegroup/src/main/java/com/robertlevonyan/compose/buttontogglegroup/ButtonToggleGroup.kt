@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -204,7 +205,7 @@ private fun RowScope.ButtonContent(
             .size(24.dp),
           painter = buttonIcons[index],
           contentDescription = null,
-          colorFilter = ColorFilter.tint(iconTintColor)
+          colorFilter = ColorFilter.tint(iconTintColor),
         )
       }
       Text(
@@ -212,14 +213,18 @@ private fun RowScope.ButtonContent(
           .padding(start = 8.dp)
           .align(Alignment.CenterVertically),
         text = buttonTexts[index],
-        color = contentColor
+        color = contentColor,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
       )
     }
     buttonTexts.all { it != "" } && buttonIcons.all { it == emptyPainter } ->
       Text(
         modifier = Modifier.align(Alignment.CenterVertically),
         text = buttonTexts[index],
-        color = contentColor
+        color = contentColor,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
       )
     buttonTexts.all { it == "" } && buttonIcons.all { it != emptyPainter } ->
       if (iconTintColor == Color.Transparent || iconTintColor == Color.Unspecified) {
@@ -237,7 +242,7 @@ private fun RowScope.ButtonContent(
             .size(24.dp),
           painter = buttonIcons[index],
           contentDescription = null,
-          colorFilter = ColorFilter.tint(iconTintColor)
+          colorFilter = ColorFilter.tint(iconTintColor),
         )
       }
   }
