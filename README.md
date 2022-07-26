@@ -96,9 +96,9 @@ Add following line of code to your module(app) level gradle file
 
 ## Versions
 
-#### 1.0.1 - 1.0.3
+#### 1.0.1 - 1.0.5
 
-Icon button support added
+Icon button support added, Text made single line
 
 ### 1.0.0
 

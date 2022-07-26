@@ -220,7 +220,9 @@ private fun RowScope.ButtonContent(
     }
     buttonTexts.all { it != "" } && buttonIcons.all { it == emptyPainter } ->
       Text(
-        modifier = Modifier.align(Alignment.CenterVertically),
+        modifier = Modifier
+          .padding(start = 8.dp)
+          .align(Alignment.CenterVertically),
         text = buttonTexts[index],
         color = contentColor,
         maxLines = 1,
