@@ -41,6 +41,7 @@ fun ColumnToggleButtonGroup(
   elevation: ButtonElevation = ButtonDefaults.elevation(),
   enabled: Boolean = true,
   buttonHeight: Dp = 60.dp,
+  iconPosition: IconPosition = IconPosition.Start,
   onButtonClick: (index: Int) -> Unit,
 ) {
   Column(modifier = modifier) {
@@ -62,7 +63,7 @@ fun ColumnToggleButtonGroup(
       ToggleButton(
         modifier = Modifier
           .fillMaxWidth()
-          .height(buttonHeight)
+          .defaultMinSize(minHeight = buttonHeight)
           .offset(y = offset),
         buttonShape = buttonShape,
         border = border,
@@ -74,6 +75,7 @@ fun ColumnToggleButtonGroup(
         index = index,
         contentColor = contentColor,
         iconTintColor = iconTintColor,
+        iconPosition = iconPosition,
         onClick = {
           selectionIndex = index
           onButtonClick.invoke(index)
@@ -103,6 +105,7 @@ fun RowToggleButtonGroup(
   elevation: ButtonElevation = ButtonDefaults.elevation(),
   enabled: Boolean = true,
   buttonHeight: Dp = 60.dp,
+  iconPosition: IconPosition = IconPosition.Start,
   onButtonClick: (index: Int) -> Unit,
 ) {
   Row(modifier = modifier) {
@@ -124,7 +127,7 @@ fun RowToggleButtonGroup(
       ToggleButton(
         modifier = Modifier
           .weight(weight = 1f)
-          .height(buttonHeight)
+          .defaultMinSize(minHeight = buttonHeight)
           .offset(x = offset),
         buttonShape = buttonShape,
         border = border,
@@ -136,6 +139,7 @@ fun RowToggleButtonGroup(
         index = index,
         contentColor = contentColor,
         iconTintColor = iconTintColor,
+        iconPosition = iconPosition,
         onClick = {
           selectionIndex = index
           onButtonClick.invoke(index)
@@ -158,6 +162,7 @@ private fun ToggleButton(
   index: Int,
   contentColor: Color,
   iconTintColor: Color,
+  iconPosition: IconPosition,
   onClick: () -> Unit,
 ) {
   OutlinedButton(
@@ -176,6 +181,7 @@ private fun ToggleButton(
       index = index,
       contentColor = contentColor,
       iconTintColor = iconTintColor,
+      iconPosition = iconPosition,
     )
   }
 }
@@ -187,67 +193,92 @@ private fun RowScope.ButtonContent(
   index: Int,
   contentColor: Color,
   iconTintColor: Color,
+  iconPosition: IconPosition = IconPosition.Start,
 ) {
   when {
-    buttonTexts.all { it != "" } && buttonIcons.all { it != emptyPainter } -> {
-      if (iconTintColor == Color.Transparent || iconTintColor == Color.Unspecified) {
-        Image(
-          modifier = Modifier
-            .align(Alignment.CenterVertically)
-            .size(24.dp),
-          painter = buttonIcons[index],
-          contentDescription = null,
-        )
-      } else {
-        Image(
-          modifier = Modifier
-            .align(Alignment.CenterVertically)
-            .size(24.dp),
-          painter = buttonIcons[index],
-          contentDescription = null,
-          colorFilter = ColorFilter.tint(iconTintColor),
-        )
-      }
-      Text(
-        modifier = Modifier
-          .padding(start = 8.dp)
-          .align(Alignment.CenterVertically),
-        text = buttonTexts[index],
-        color = contentColor,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-      )
-    }
-    buttonTexts.all { it != "" } && buttonIcons.all { it == emptyPainter } ->
-      Text(
-        modifier = Modifier
-          .padding(start = 8.dp)
-          .align(Alignment.CenterVertically),
-        text = buttonTexts[index],
-        color = contentColor,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-      )
-    buttonTexts.all { it == "" } && buttonIcons.all { it != emptyPainter } ->
-      if (iconTintColor == Color.Transparent || iconTintColor == Color.Unspecified) {
-        Image(
-          modifier = Modifier
-            .align(Alignment.CenterVertically)
-            .size(24.dp),
-          painter = buttonIcons[index],
-          contentDescription = null,
-        )
-      } else {
-        Image(
-          modifier = Modifier
-            .align(Alignment.CenterVertically)
-            .size(24.dp),
-          painter = buttonIcons[index],
-          contentDescription = null,
-          colorFilter = ColorFilter.tint(iconTintColor),
-        )
-      }
+    buttonTexts.all { it != "" } && buttonIcons.all { it != emptyPainter } -> ButtonWithIconAndText(
+      iconTintColor = iconTintColor,
+      buttonIcons = buttonIcons,
+      buttonTexts = buttonTexts,
+      index = index,
+      contentColor = contentColor,
+      iconPosition = iconPosition,
+    )
+    buttonTexts.all { it != "" } && buttonIcons.all { it == emptyPainter } -> TextContent(
+      modifier = Modifier.align(Alignment.CenterVertically),
+      buttonTexts = buttonTexts,
+      index = index,
+      contentColor = contentColor,
+    )
+    buttonTexts.all { it == "" } && buttonIcons.all { it != emptyPainter } -> IconContent(
+      modifier = Modifier.align(Alignment.CenterVertically),
+      iconTintColor = iconTintColor,
+      buttonIcons = buttonIcons,
+      index = index,
+    )
   }
 }
 
+@Composable
+private fun RowScope.ButtonWithIconAndText(
+  iconTintColor: Color,
+  buttonIcons: Array<Painter>,
+  buttonTexts: Array<String>,
+  index: Int,
+  contentColor: Color,
+  iconPosition: IconPosition
+) {
+  when (iconPosition) {
+    IconPosition.Start -> {
+      IconContent(Modifier.align(Alignment.CenterVertically), iconTintColor, buttonIcons, index)
+      TextContent(Modifier.align(Alignment.CenterVertically), buttonTexts, index, contentColor)
+    }
+    IconPosition.Top -> Column {
+      IconContent(Modifier.align(Alignment.CenterHorizontally), iconTintColor, buttonIcons, index)
+      TextContent(Modifier.align(Alignment.CenterHorizontally), buttonTexts, index, contentColor)
+    }
+    IconPosition.End -> {
+      TextContent(Modifier.align(Alignment.CenterVertically), buttonTexts, index, contentColor)
+      IconContent(Modifier.align(Alignment.CenterVertically), iconTintColor, buttonIcons, index)
+    }
+    IconPosition.Bottom -> Column {
+      TextContent(Modifier.align(Alignment.CenterHorizontally), buttonTexts, index, contentColor)
+      IconContent(Modifier.align(Alignment.CenterHorizontally), iconTintColor, buttonIcons, index)
+    }
+  }
+}
+
+@Composable
+private fun IconContent(modifier: Modifier, iconTintColor: Color, buttonIcons: Array<Painter>, index: Int) {
+  if (iconTintColor == Color.Transparent || iconTintColor == Color.Unspecified) {
+    Image(
+      modifier = modifier.size(24.dp),
+      painter = buttonIcons[index],
+      contentDescription = null,
+    )
+  } else {
+    Image(
+      modifier = modifier.size(24.dp),
+      painter = buttonIcons[index],
+      contentDescription = null,
+      colorFilter = ColorFilter.tint(iconTintColor),
+    )
+  }
+}
+
+@Composable
+private fun TextContent(modifier: Modifier, buttonTexts: Array<String>, index: Int, contentColor: Color) {
+  Text(
+    modifier = modifier.padding(horizontal = 8.dp),
+    text = buttonTexts[index],
+    color = contentColor,
+    maxLines = 1,
+    overflow = TextOverflow.Ellipsis,
+  )
+}
+
 private val emptyPainter = ColorPainter(Color.Transparent)
+
+enum class IconPosition {
+  Start, Top, End, Bottom
+}

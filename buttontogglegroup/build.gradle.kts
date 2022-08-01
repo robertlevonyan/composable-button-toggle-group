@@ -8,7 +8,6 @@ val composeVersion = "1.1.1"
 
 android {
   compileSdk = 32
-
   defaultConfig {
     minSdk = 21
     targetSdk = 32

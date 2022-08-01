@@ -67,11 +67,12 @@ fun BtgTest() {
       selectedContentColor = Color.White,
       unselectedContentColor = DarkGray,
       elevation = ButtonDefaults.elevation(0.dp),
-      buttonTexts = arrayOf("Android", "iOS"),
+      buttonTexts = arrayOf("Android, Android, Android, Android, Android, Android", "iOS"),
       buttonIcons = arrayOf(
         painterResource(id = R.drawable.ic_android),
         painterResource(id = R.drawable.ic_ios),
       ),
+      iconPosition = IconPosition.Top,
     ) { index ->
       println(index)
     }

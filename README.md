@@ -87,6 +87,7 @@ Add following line of code to your module(app) level gradle file
         painterResource(id = R.drawable.ic_android),
         painterResource(id = R.drawable.ic_ios),
       ),
+      iconPosition = IconPosition.Top,
     ) { index ->
       // check index and handle click
     }
@@ -95,6 +96,10 @@ Add following line of code to your module(app) level gradle file
 ![alt text](https://github.com/robertlevonyan/composable-button-toggle-group/blob/main/images/column.png)
 
 ## Versions
+
+#### 1.1.0
+
+Now you can specify icon position
 
 #### 1.0.1 - 1.0.5
 
