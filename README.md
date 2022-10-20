@@ -4,9 +4,7 @@ ComposableButtonToggleGroup is the implementation of MaterialButtonToggleGroup f
 |Composable Button Toggle Group is the implementation of MaterialButtonToggleGroup for Jetpack Compose.|<img src="https://github.com/robertlevonyan/composable-button-toggle-group/blob/main/images/btg.png"  width="500" />|
 |----------------------------------------------------------------------------------------------|-----------|
 
-|Android Arsenal|[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Material%20Chip%20View-yellow.svg?style=flat-square)](https://android-arsenal.com/details/1/5396) [![API](https://img.shields.io/badge/API-21%2B-yellow.svg?style=flat-square)](https://android-arsenal.com/api?level=21)|
-|--------------------|--------------------|
-|Version|[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.robertlevonyan.compose/buttontogglegroup/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.robertlevonyan.compose/buttontogglegroup)|
+[![API](https://img.shields.io/badge/API-21%2B-yellow.svg?style=flat-square)](https://android-arsenal.com/api?level=21) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.robertlevonyan.compose/buttontogglegroup/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.robertlevonyan.compose/buttontogglegroup)
 
 ## Setup
 
