@@ -4,13 +4,13 @@ plugins {
   id("com.vanniktech.maven.publish")
 }
 
-val composeVersion = "1.1.1"
+val composeVersion = "1.4.0"
 
 android {
-  compileSdk = 32
+  compileSdk = 33
   defaultConfig {
     minSdk = 21
-    targetSdk = 32
+    targetSdk = 33
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -21,11 +21,11 @@ android {
     }
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
   }
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = "17"
   }
   buildFeatures {
     compose = true
@@ -36,12 +36,10 @@ android {
   namespace = "com.robertlevonyan.compose"
 }
 
-allprojects {
-  plugins.withId("com.vanniktech.maven.publish") {
-    mavenPublish {
-      sonatypeHost = com.vanniktech.maven.publish.SonatypeHost.S01
-    }
-  }
+mavenPublishing {
+  publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.S01)
+
+  signAllPublications()
 }
 
 dependencies {
