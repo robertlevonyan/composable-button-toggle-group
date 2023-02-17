@@ -3,7 +3,6 @@ plugins {
   kotlin("android")
 }
 
-val composeVersion = "1.4.0"
 
 android {
 
@@ -25,17 +24,17 @@ android {
     }
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_20
-    targetCompatibility = JavaVersion.VERSION_20
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
   }
   kotlinOptions {
-    jvmTarget = "20"
+    jvmTarget = "11"
   }
   buildFeatures {
     compose = true
   }
   composeOptions {
-    kotlinCompilerExtensionVersion = composeVersion
+    kotlinCompilerExtensionVersion = "1.4.2"
   }
   packagingOptions {
     resources {
@@ -46,12 +45,12 @@ android {
 
 dependencies {
   implementation("androidx.core:core-ktx:1.9.0")
-  implementation("androidx.compose.ui:ui:$composeVersion")
-  implementation("androidx.compose.material:material:$composeVersion")
-  implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
+  implementation("androidx.compose.ui:ui:1.4.0-beta01")
+  implementation("androidx.compose.material:material:1.4.0-beta01")
+  implementation("androidx.compose.ui:ui-tooling-preview:1.4.0-beta01")
   implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
   implementation("androidx.activity:activity-compose:1.6.1")
   implementation(project(mapOf("path" to ":buttontogglegroup")))
-  debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-  debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
+  debugImplementation("androidx.compose.ui:ui-tooling:1.4.0-beta01")
+  debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.0-beta01")
 }
