@@ -2,10 +2,22 @@ package com.robertlevonyan.compose.buttontogglegroup
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ButtonElevation
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -150,7 +162,7 @@ fun RowToggleButtonGroup(
 }
 
 @Composable
-private fun ToggleButton(
+private inline fun ToggleButton(
   modifier: Modifier,
   buttonShape: CornerBasedShape,
   border: BorderStroke,
@@ -163,14 +175,14 @@ private fun ToggleButton(
   contentColor: Color,
   iconTintColor: Color,
   iconPosition: IconPosition,
-  onClick: () -> Unit,
+  crossinline onClick: () -> Unit,
 ) {
   OutlinedButton(
     modifier = modifier,
     contentPadding = PaddingValues(),
     shape = buttonShape,
     border = border,
-    onClick = onClick,
+    onClick = { onClick() },
     colors = ButtonDefaults.outlinedButtonColors(backgroundColor = backgroundColor),
     elevation = elevation,
     enabled = enabled,
@@ -204,12 +216,14 @@ private fun RowScope.ButtonContent(
       contentColor = contentColor,
       iconPosition = iconPosition,
     )
+
     buttonTexts.all { it != "" } && buttonIcons.all { it == emptyPainter } -> TextContent(
       modifier = Modifier.align(Alignment.CenterVertically),
       buttonTexts = buttonTexts,
       index = index,
       contentColor = contentColor,
     )
+
     buttonTexts.all { it == "" } && buttonIcons.all { it != emptyPainter } -> IconContent(
       modifier = Modifier.align(Alignment.CenterVertically),
       iconTintColor = iconTintColor,
@@ -226,21 +240,24 @@ private fun RowScope.ButtonWithIconAndText(
   buttonTexts: Array<String>,
   index: Int,
   contentColor: Color,
-  iconPosition: IconPosition
+  iconPosition: IconPosition,
 ) {
   when (iconPosition) {
     IconPosition.Start -> {
       IconContent(Modifier.align(Alignment.CenterVertically), iconTintColor, buttonIcons, index)
       TextContent(Modifier.align(Alignment.CenterVertically), buttonTexts, index, contentColor)
     }
+
     IconPosition.Top -> Column {
       IconContent(Modifier.align(Alignment.CenterHorizontally), iconTintColor, buttonIcons, index)
       TextContent(Modifier.align(Alignment.CenterHorizontally), buttonTexts, index, contentColor)
     }
+
     IconPosition.End -> {
       TextContent(Modifier.align(Alignment.CenterVertically), buttonTexts, index, contentColor)
       IconContent(Modifier.align(Alignment.CenterVertically), iconTintColor, buttonIcons, index)
     }
+
     IconPosition.Bottom -> Column {
       TextContent(Modifier.align(Alignment.CenterHorizontally), buttonTexts, index, contentColor)
       IconContent(Modifier.align(Alignment.CenterHorizontally), iconTintColor, buttonIcons, index)
@@ -249,7 +266,12 @@ private fun RowScope.ButtonWithIconAndText(
 }
 
 @Composable
-private fun IconContent(modifier: Modifier, iconTintColor: Color, buttonIcons: Array<Painter>, index: Int) {
+private fun IconContent(
+  modifier: Modifier,
+  iconTintColor: Color,
+  buttonIcons: Array<Painter>,
+  index: Int,
+) {
   if (iconTintColor == Color.Transparent || iconTintColor == Color.Unspecified) {
     Image(
       modifier = modifier.size(24.dp),
@@ -267,7 +289,12 @@ private fun IconContent(modifier: Modifier, iconTintColor: Color, buttonIcons: A
 }
 
 @Composable
-private fun TextContent(modifier: Modifier, buttonTexts: Array<String>, index: Int, contentColor: Color) {
+private fun TextContent(
+  modifier: Modifier,
+  buttonTexts: Array<String>,
+  index: Int,
+  contentColor: Color,
+) {
   Text(
     modifier = modifier.padding(horizontal = 8.dp),
     text = buttonTexts[index],
