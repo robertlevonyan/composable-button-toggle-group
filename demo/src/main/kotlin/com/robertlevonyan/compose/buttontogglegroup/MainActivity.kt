@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     setContent {
       ButtonToggleGroupTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
           BtgTest()
         }
       }
@@ -45,7 +45,7 @@ fun BtgTest() {
       unselectedColor = LightGray,
       selectedContentColor = Color.White,
       unselectedContentColor = DarkGray,
-      elevation = ButtonDefaults.elevation(0.dp),
+      elevation = ButtonDefaults.buttonElevation(0.dp),
       buttonIcons = arrayOf(
         painterResource(id = R.drawable.ic_format_align_left),
         painterResource(id = R.drawable.ic_format_align_center),
@@ -66,7 +66,7 @@ fun BtgTest() {
       unselectedColor = LightGray,
       selectedContentColor = Color.White,
       unselectedContentColor = DarkGray,
-      elevation = ButtonDefaults.elevation(0.dp),
+      elevation = ButtonDefaults.buttonElevation(0.dp),
       buttonTexts = arrayOf("Android, Android, Android, Android, Android, Android", "iOS"),
       buttonIcons = arrayOf(
         painterResource(id = R.drawable.ic_android),

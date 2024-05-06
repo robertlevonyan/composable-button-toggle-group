@@ -13,13 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ButtonElevation
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonElevation
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -50,7 +51,7 @@ fun ColumnToggleButtonGroup(
   shape: CornerBasedShape = MaterialTheme.shapes.small,
   borderSize: Dp = 1.dp,
   border: BorderStroke = BorderStroke(borderSize, borderColor),
-  elevation: ButtonElevation = ButtonDefaults.elevation(),
+  elevation: ButtonElevation = ButtonDefaults.buttonElevation(),
   enabled: Boolean = true,
   buttonHeight: Dp = 60.dp,
   iconPosition: IconPosition = IconPosition.Start,
@@ -58,7 +59,7 @@ fun ColumnToggleButtonGroup(
 ) {
   Column(modifier = modifier) {
     val squareCorner = CornerSize(0.dp)
-    var selectionIndex by rememberSaveable { mutableStateOf(primarySelection) }
+    var selectionIndex by rememberSaveable { mutableIntStateOf(primarySelection) }
 
     repeat(buttonCount) { index ->
       val buttonShape = when (index) {
@@ -114,7 +115,7 @@ fun RowToggleButtonGroup(
   shape: CornerBasedShape = MaterialTheme.shapes.small,
   borderSize: Dp = 1.dp,
   border: BorderStroke = BorderStroke(borderSize, borderColor),
-  elevation: ButtonElevation = ButtonDefaults.elevation(),
+  elevation: ButtonElevation = ButtonDefaults.buttonElevation(),
   enabled: Boolean = true,
   buttonHeight: Dp = 60.dp,
   iconPosition: IconPosition = IconPosition.Start,
@@ -122,7 +123,7 @@ fun RowToggleButtonGroup(
 ) {
   Row(modifier = modifier) {
     val squareCorner = CornerSize(0.dp)
-    var selectionIndex by rememberSaveable { mutableStateOf(primarySelection) }
+    var selectionIndex by rememberSaveable { mutableIntStateOf(primarySelection) }
 
     repeat(buttonCount) { index ->
       val buttonShape = when (index) {
@@ -182,8 +183,10 @@ private inline fun ToggleButton(
     contentPadding = PaddingValues(),
     shape = buttonShape,
     border = border,
-    onClick = { onClick() },
-    colors = ButtonDefaults.outlinedButtonColors(backgroundColor = backgroundColor),
+    onClick = {
+      onClick()
+    },
+    colors = ButtonDefaults.outlinedButtonColors(containerColor = backgroundColor),
     elevation = elevation,
     enabled = enabled,
   ) {

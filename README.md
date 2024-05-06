@@ -95,6 +95,10 @@ Add following line of code to your module(app) level gradle file
 
 ## Versions
 
+### 1.2.0
+
+Migrate to Material 3
+
 #### 1.1.0
 
 Now you can specify icon position
