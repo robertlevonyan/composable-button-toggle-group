@@ -1,15 +1,15 @@
 plugins {
-  id("com.android.library")
-  kotlin("android")
-  id("com.vanniktech.maven.publish")
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.kotlin.android)
+  alias(libs.plugins.compose)
+  alias(libs.plugins.maven.publish)
 }
 
 android {
   namespace = "com.robertlevonyan.compose"
-  compileSdk = 34
+  compileSdk = 35
   defaultConfig {
     minSdk = 21
-    targetSdk = 34
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -23,13 +23,10 @@ android {
   buildFeatures {
     compose = true
   }
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.5.11"
-  }
 }
 
 dependencies {
-  implementation("androidx.compose.ui:ui:1.6.7")
-  implementation("androidx.compose.material3:material3:1.2.1")
-  implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
+  implementation(libs.androidx.compose.material3)
+  implementation(libs.androidx.compose.ui)
+  implementation(libs.androidx.compose.ui.tooling)
 }
