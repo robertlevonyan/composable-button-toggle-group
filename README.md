@@ -1,3 +1,9 @@
+> ℹ️ **Info**
+> 
+> This library is no longer maintained, as a native component is now available.
+>
+> Check [SegmentedButton](https://m3.material.io/components/segmented-buttons/overview)
+
 # Composable Button Toggle Group
 ComposableButtonToggleGroup is the implementation of MaterialButtonToggleGroup for Jetpack Compose
 
